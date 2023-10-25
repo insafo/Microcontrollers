@@ -2,13 +2,13 @@ ADC Examples
 --------------------------------
 Tasks to do at home before class
 --------------------------------
-Read "Hardware_sprugm2a.pdf"
+Read "Hardware_sprugm2a.pdf" (goto Interrupt_Lab6 Folder to see PDF)
 Read slides "Microcontrollers_2324_ADC.pdf" on InforStudent  
 
 Watch Video (explanation): https://www.youtube.com/watch?v=awb-XzP1GNE
 Video (CCS example): https://www.youtube.com/watch?v=gCJA_am1-0U
 Read "Lab_08_Module.pdf"
-Read "sprufb0d(PIE).pdf" pages (113-137)
+Read "2260.TI_TMS320x2833x Analog-to-Digital Converter.pdf" pages (10-14; 15-23; 24-32)
 
 THEN
 Carry out task 8.1 described near the end of the slides
