@@ -11,6 +11,7 @@ Video (CCS example):https://www.youtube.com/watch?v=iXSZH54KyHY | https://www.yo
 Read "Lab_07_Module.pdf"
 Read "https://www.mdpi.com/1996-1073/12/13/2558" <--- OPTIONAL
 Read "EPWM_Peripheral.pdf"
+Read "IQmath_Quickstart.pdf" for Task7.9.c
 
 THEN
 Carry out task 7.1 to 7.9 described after each ePWM module explanation (You have a .c prototype for each one)
