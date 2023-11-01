@@ -1,5 +1,5 @@
 /*
- * Task7.1.c
+ * Task7.3.c
  *
  *  Created on: 26/10/2023
  *      Author: Inacio Fonseca
@@ -15,7 +15,7 @@ extern int readHexEncoder();
 extern int readButtonPB1();
 extern int readButtonPB2();
 
-// In This FILE
+// Prototype statements In This FILE
 void Setup_ePWM1(void);
 interrupt void cpu_timer0_isr(void);
 
@@ -47,7 +47,7 @@ void main(void) {
 
     InitCpuTimers();    // basic setup CPU Timer0, 1 and 2
 
-    ConfigCpuTimer(&CpuTimer0,150,100000);
+    ConfigCpuTimer(&CpuTimer0,150,100); // 0.1 ms
     PieCtrlRegs.PIEIER1.bit.INTx7 = 1; // Enable PIE INT1.7 Timer0
     IER |= M_INT1;  // Enable INT1 in F28335
 
@@ -56,9 +56,8 @@ void main(void) {
 
     CpuTimer0Regs.TCR.bit.TSS = 0;  // start timer0
 
-
     while(1) {
-        while(CpuTimer0.InterruptCount == 0);
+        while(CpuTimer0.InterruptCount < 1000);
         CpuTimer0.InterruptCount = 0;
 
         EALLOW;
@@ -77,16 +76,29 @@ void Setup_ePWM1(void) {
     EPwm1Regs.TBCTL.bit.HSPCLKDIV = ?;  // HSPCLKDIV = ?
     EPwm1Regs.TBCTL.bit.CTRMODE = ?;    // up - down mode
 
-    EPwm1Regs.AQCTLA.all = ?;      // ZRO = set, PRD = clear
+    EPwm1Regs.AQCTLA.all = ?;      // set ePWM1A on CMPA up
+                                        // clear ePWM1A on CMPA down
 
     EPwm1Regs.TBPRD = ?;            // 1KHz - PWM signal
+    EPwm1Regs.CMPA.half.CMPA  = ?;      // 100% duty cycle first
 }
 
 interrupt void cpu_timer0_isr(void)
 {
+    static int up_down = 1;
     CpuTimer0.InterruptCount++;
     EALLOW;
     SysCtrlRegs.WDKEY = 0xAA;   // service WD #2
     EDIS;
+    if(up_down)
+    {
+        if(EPwm1Regs.CMPA.half.CMPA < EPwm1Regs.TBPRD) EPwm1Regs.CMPA.half.CMPA++;
+        else up_down = 0;
+    }
+    else
+    {
+        if(EPwm1Regs.CMPA.half.CMPA > 0) EPwm1Regs.CMPA.half.CMPA--;
+        else up_down = 1;
+    }
     PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
 }

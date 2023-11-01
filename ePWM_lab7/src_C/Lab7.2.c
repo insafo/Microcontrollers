@@ -1,5 +1,5 @@
 /*
- * Task7.1.c
+ * Task7.2.c
  *
  *  Created on: 26/10/2023
  *      Author: Inacio Fonseca
@@ -15,8 +15,8 @@ extern int readHexEncoder();
 extern int readButtonPB1();
 extern int readButtonPB2();
 
-// In This FILE
-void Setup_ePWM1(void);
+// Prototype statements In This FILE
+void Setup_ePWM(void);
 interrupt void cpu_timer0_isr(void);
 
 int counter=0;  // binary counter for digital output
@@ -31,7 +31,7 @@ void main(void) {
     DINT;               // Disable all interrupts
 
     Gpio_select();      // GPIO9, GPIO11, GPIO34 and GPIO49 as output // to 4 LEDs at Peripheral Explorer)
-    Setup_ePWM1();     // init of ePWM1A
+    Setup_ePWM();     // init of ePWM1A
 
     InitPieCtrl(); // in the DSP2833x_PieCtrl.c
     // Disable CPU interrupts and clear all CPU interrupt flags:
@@ -71,15 +71,35 @@ void main(void) {
 }
 
 
-void Setup_ePWM1(void) {
+void Setup_ePWM(void) {
 
     EPwm1Regs.TBCTL.bit.CLKDIV =  ?;    // CLKDIV = ?
     EPwm1Regs.TBCTL.bit.HSPCLKDIV = ?;  // HSPCLKDIV = ?
     EPwm1Regs.TBCTL.bit.CTRMODE = ?;    // up - down mode
-
     EPwm1Regs.AQCTLA.all = ?;      // ZRO = set, PRD = clear
-
     EPwm1Regs.TBPRD = ?;            // 1KHz - PWM signal
+
+    EPwm2Regs.TBCTL.bit.CLKDIV =  ?;    // CLKDIV = ?
+    EPwm2Regs.TBCTL.bit.HSPCLKDIV = ?;  // HSPCLKDIV = ?
+    EPwm2Regs.TBCTL.bit.CTRMODE = ?;    // up - down mode
+    EPwm2Regs.AQCTLA.all = ?;      // ZRO = set, PRD = clear
+    EPwm2Regs.TBPRD = ?;            // 1KHz - PWM signal
+
+    EPwm3Regs.TBCTL.bit.CLKDIV =  ?;    // CLKDIV = 1
+    EPwm3Regs.TBCTL.bit.HSPCLKDIV = ?;  // HSPCLKDIV = 1
+    EPwm3Regs.TBCTL.bit.CTRMODE = ?;    // up - down mode
+    EPwm3Regs.AQCTLA.all = ?;      // ZRO = set, PRD = clear
+    EPwm3Regs.TBPRD = ?;            // 1KHz - PWM signal
+
+    EPwm1Regs.TBCTL.bit.SYNCOSEL = ?;   // generate a syncout if CTR = 0
+
+    EPwm2Regs.TBCTL.bit.PHSEN = ?;      // enable phase shift for ePWM2
+    EPwm2Regs.TBCTL.bit.SYNCOSEL = ?;   // syncin = syncout
+    EPwm2Regs.TBPHS.half.TBPHS = ?; // 1/3 phase shift
+
+    EPwm3Regs.TBCTL.bit.PHSEN = ?;      // enable phase shift for ePWM3
+    EPwm3Regs.TBPHS.half.TBPHS = ?; // 2/3 phase shift
+
 }
 
 interrupt void cpu_timer0_isr(void)
@@ -90,3 +110,7 @@ interrupt void cpu_timer0_isr(void)
     EDIS;
     PieCtrlRegs.PIEACK.all = PIEACK_GROUP1;
 }
+
+
+
+
